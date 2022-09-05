@@ -37,4 +37,4 @@ It is good to remember that in React it is possible and worthwhile to write cons
 
 Also keep in mind that React component names must be capitalized. 
 
-Note that the content of a React component (usually) needs to contain one root element. i.e. <div>...</div> or just blank <>...</>
+Note that the content of a React component (usually) needs to contain one root element. i.e. `<div>...</div>` or just blank `<>...</>`
