@@ -72,7 +72,7 @@ In most cases the easiest and best way to accomplish handling complex state is b
 
 If you're trying to update state via passing an object with various properties, it would be much easier to use the object spread syntax where all the other properties stay the same and only the one you update is changed.
 
-```
+```javascript
 const handleLeftClick = () => {
     const newClicks = { 
       left: clicks.left + 1, 
@@ -84,7 +84,7 @@ const handleLeftClick = () => {
 
 To 
 
-```
+```javascript
 const handleLeftClick = () => {
     const newClicks = { 
         ...clicks, 
@@ -100,7 +100,7 @@ It is *forbidden in React to mutate state directly*, since [it can result in une
 
 #### Conditional Rendering
 
-```
+```javascript
 const History = (props) => {
   if (props.allClicks.length === 0) {
     return (
