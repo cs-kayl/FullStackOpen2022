@@ -72,27 +72,47 @@ In most cases the easiest and best way to accomplish handling complex state is b
 
 If you're trying to update state via passing an object with various properties, it would be much easier to use the object spread syntax where all the other properties stay the same and only the one you update is changed.
 
-`  const handleLeftClick = () => {
+```
+const handleLeftClick = () => {
     const newClicks = { 
       left: clicks.left + 1, 
       right: clicks.right 
     }
     setClicks(newClicks)
-  }
-`
+}
+```
 
 To 
 
-` const handleLeftClick = () => {
+```
+const handleLeftClick = () => {
     const newClicks = { 
         ...clicks, 
         left: clicks.left + 1 
     }
     setClicks(newClicks)
-  }
-`
+}
+```
+
 
 #### Why we don't we just update the state directly???
 It is *forbidden in React to mutate state directly*, since [it can result in unexpected side effects](https://stackoverflow.com/questions/37755997/why-cant-i-directly-modify-a-components-state-really/40309023#40309023). Changing state has to always be done by setting the state to a new object. If properties from the previous state object are not changed, they need to simply be copied, which is done by copying those properties into a new object, and setting that as the new state.
 
+#### Conditional Rendering
 
+```
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
+  return (
+    <div>
+      button press history: {props.allClicks.join(' ')}
+    </div>
+  )
+}
+```
