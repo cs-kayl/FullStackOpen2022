@@ -38,3 +38,58 @@ It is good to remember that in React it is possible and worthwhile to write cons
 Also keep in mind that React component names must be capitalized. 
 
 Note that the content of a React component (usually) needs to contain one root element. i.e. `<div>...</div>` or just blank `<>...</>`
+
+### Component state and event handlers
+
+#### Event handler is a function
+An event handler is supposed to be either a *function* or a *function reference* 
+
+Calling a function which changes the state causes the component to rerender.
+
+#### Passing state to child components
+It's recommended to write React components that are small and reusable across the application and even across projects. Let's refactor our application so that it's composed of three smaller components, one component for displaying the counter and two components for buttons.
+
+One best practice in React is to lift the state up in the component hierarchy. The documentation says:
+*Often, several components need to reflect the same changing data. We recommend lifting the shared state up to their closest common ancestor.*
+
+### A more complex state, debugging React apps
+Version 18 of React was released late March 2022. The code in material should work as it is with the new React version. However, some libraries might not yet be compatible with React 18. At the moment of writing (4th April) at least the Apollo client used in part 8 does not yet work with most recent React.
+
+In case you end up in a situation where your application breaks because of library compatibility problems, downgrade to the older React by changing the file package.json as follows:
+
+`{
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^2.1.4"
+  },
+  // ...
+}`
+
+#### Complex state
+In most cases the easiest and best way to accomplish handling complex state is by using the useState function multiple times to create separate "pieces" of state.
+
+If you're trying to update state via passing an object with various properties, it would be much easier to use the object spread syntax where all the other properties stay the same and only the one you update is changed.
+
+`  const handleLeftClick = () => {
+    const newClicks = { 
+      left: clicks.left + 1, 
+      right: clicks.right 
+    }
+    setClicks(newClicks)
+  }
+`
+
+To 
+
+` const handleLeftClick = () => {
+    const newClicks = { 
+        ...clicks, 
+        left: clicks.left + 1 
+    }
+    setClicks(newClicks)
+  }
+`
+
+
