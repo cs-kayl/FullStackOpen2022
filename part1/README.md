@@ -116,3 +116,110 @@ const History = (props) => {
   )
 }
 ```
+
+The History component renders completely different React elements depending on the state of the application. This is called conditional rendering.
+
+#### Old React
+In this course we use the state hook to add state to our React components, which is part of the newer versions of React and is available from version 16.8.0 onwards. Before the addition of hooks, there was no way to add state to functional components. Components that required state had to be defined as class components, using the JavaScript class syntax.
+
+In this course we have made the slightly radical decision to use hooks exclusively from day one, to ensure that we are learning the current and future style of React. Even though functional components are the future of React, it is still important to learn the class syntax, as there are billions of lines of legacy React code that you might end up maintaining someday. The same applies to documentation and examples of React that you may stumble across on the internet.
+
+#### Debugging React applications
+Keep both your code and the web page open together at the same time, all the time.
+
+If and when your code fails to compile and your browser lights up like a Christmas tree, **don't write more code but rather find and fix the problem immediately.** There has yet to be a moment in the history of coding where code that fails to compile would miraculously start working after writing large amounts of additional code. I highly doubt that such an event will transpire during this course either.
+
+Old school, print-based debugging is always a good idea.
+
+#### Rules of Hooks
+There are a few limitations and rules we have to follow to ensure that our application uses hooks-based state functions correctly.
+
+The useState function (as well as the useEffect function introduced later on in the course) must not be called from inside of a loop, a conditional expression, or any place that is not a function defining a component. This must be done to ensure that the hooks are always called in the same order, and if this isn't the case the application will behave erratically.
+
+To recap, hooks may only be called from the inside of a function body that defines a React component:
+
+```javascript
+const App = () => {
+  // these are ok
+  const [age, setAge] = useState(0)
+  const [name, setName] = useState('Juha Tauriainen')
+
+  if ( age > 10 ) {
+    // this does not work!
+    const [foobar, setFoobar] = useState(null)
+  }
+
+  for ( let i = 0; i < age; i++ ) {
+    // also this is not good
+    const [rightWay, setRightWay] = useState(false)
+  }
+
+  const notGood = () => {
+    // and this is also illegal
+    const [x, setX] = useState(-1000)
+  }
+
+  return (
+    //...
+  )
+}
+```
+
+#### Function that returns a function
+```javascript
+const App = () => {
+  const [value, setValue] = useState(10)
+
+  const hello = (who) => {
+    const handler = () => {
+      console.log('hello', who)
+    }
+    return handler
+  }
+
+  return (
+    <div>
+      {value}
+      <button onClick={hello('world')}>button</button>
+      <button onClick={hello('react')}>button</button>
+      <button onClick={hello('function')}>button</button>
+    </div>
+  )
+}
+```
+The buttons get their own individualized event handlers.
+
+Functions returning functions can be utilized in defining generic functionality that can be customized with parameters. The hello function that creates the event handlers can be thought of as a factory that produces customized event handlers meant for greeting users.
+
+#### Do NOT define components within components
+```javascript
+// This is the right place to define a component
+const Button = (props) => (
+  <button onClick={props.handleClick}>
+    {props.text}
+  </button>
+)
+
+const App = () => {
+  const [value, setValue] = useState(10)
+
+  const setToValue = newValue => {
+    console.log('value now', newValue)
+    setValue(newValue)
+  }
+
+  // Do not define components inside another component
+  const Display = props => <div>{props.value}</div>
+
+  return (
+    <div>
+      <Display value={value} />
+      <Button handleClick={() => setToValue(1000)} text="thousand" />
+      <Button handleClick={() => setToValue(0)} text="reset" />
+      <Button handleClick={() => setToValue(value + 1)} text="increment" />
+    </div>
+  )
+}
+```
+
+The application still appears to work, but don't implement components like this! Never define components inside of other components. The method provides no benefits and leads to many unpleasant problems. The biggest problems are due to the fact that React treats a component defined inside of another component as a new component in every render. This makes it impossible for React to optimize the component.
