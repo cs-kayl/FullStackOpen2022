@@ -20,14 +20,16 @@ const Statistics = ({ good, neutral, bad }) => {
   }
 
   return (
-    <div>
-      <StatisticsLine type={"good"} num={good} />
-      <StatisticsLine type={"neutral"} num={neutral} />
-      <StatisticsLine type={"bad"} num={bad} />
-      <StatisticsLine type={"all"} num={calcTotal()} />
-      <StatisticsLine type={"average"} num={calcAverage()} />
-      <StatisticsLine type={"positive"} num={calcPositive()} />
-    </div>
+    <table>
+      <tbody>
+        <StatisticsLine type={"good"} num={good} />
+        <StatisticsLine type={"neutral"} num={neutral} />
+        <StatisticsLine type={"bad"} num={bad} />
+        <StatisticsLine type={"all"} num={calcTotal()} />
+        <StatisticsLine type={"average"} num={calcAverage()} />
+        <StatisticsLine type={"positive"} num={calcPositive()} />
+      </tbody>
+    </table>
   )
 }
 
@@ -44,7 +46,12 @@ const Button = ({ onClick, text }) => {
 }
 
 const StatisticsLine = ({ type, num }) => {
-  return <p>{type} {num} </p>
+  return (
+  <tr>
+    <td>{type}</td>
+    <td>{num}</td>
+  </tr>
+  )
 }
 
 
