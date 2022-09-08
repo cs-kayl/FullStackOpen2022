@@ -1,5 +1,9 @@
 import { useState } from 'react'
 
+const Header = ({ header }) => {
+  return <h1>{header}</h1>
+}
+
 const Button = ({ text , onClick}) => {
   return <button onClick={onClick}>{text}</button>
 }
@@ -25,6 +29,7 @@ const App = () => {
   ]
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(anecdotes)
+  const [maxVotes, setMaxVotes]= useState([])
 
   const handleNextAnecdote = () => {
     let max = anecdotes.length
@@ -32,15 +37,32 @@ const App = () => {
   }
 
   const handleVote = () => {
-    votes[selected].votes += 1
-    setVotes({...votes})
+    let newArray = votes.map(obj => {
+      if (anecdotes[selected].anecdote === obj.anecdote) {
+        return {...obj, votes: obj.votes + 1}
+      } else {
+        return obj
+      }
+    })
+    setVotes(newArray)
+    //findMaxVote()
   }
+
+  // const findMaxVote = () => {
+  //   anecdotes.forEach(obj => {
+  //     if (maxVotes.length == 0) {ß
+        
+  //     }
+  //   })
+  // }
 
   return (
     <div>
+      <Header header={"Anecdote of the day"} />
       <Anecdote anecdote={anecdotes[selected].anecdote} votes={votes[selected].votes} />
       <Button text={"next anecdote"} onClick={handleNextAnecdote} />
       <Button text={"vote"} onClick={handleVote} />
+      <Header header={"Anecdote(s) with most votes"} />
     </div>
   )
 }
