@@ -26,6 +26,21 @@ function App() {
     return () => callback(num + 1)
   }
 
+  const calcTotal = () => {
+    return goodCount + neutralCount + badCount
+  }
+
+  const calcAverage = () => {
+    let score = goodCount - badCount
+    let total = goodCount + neutralCount + badCount
+    return score/total
+  }
+
+  const calcPositive = () => {
+    let total = goodCount + neutralCount + badCount
+    return (goodCount/total)*100
+  }
+
   return (
     <>
       <Header header={"Give Feedback"}/>
@@ -36,6 +51,9 @@ function App() {
       <Feedback type={"good"} count={goodCount} />
       <Feedback type={"neutral"} count={neutralCount} />
       <Feedback type={"bad"} count={badCount} />
+      <p>{"all"} {calcTotal()}</p>
+      <p>{"average"} {calcAverage()}</p>
+      <p>{"positive"} {calcPositive()}{"%"}</p>
     </>
   );
 }
