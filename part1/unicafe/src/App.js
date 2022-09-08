@@ -13,7 +13,7 @@ const Statistics = ({ good, neutral, bad }) => {
 
   const calcPositive = () => {
     let total = good + neutral + bad
-    return (good/total)*100
+    return String((good/total)*100) + "%"
   }
   if (calcTotal() === 0) {
     return <p>No feedback given</p>
@@ -21,12 +21,12 @@ const Statistics = ({ good, neutral, bad }) => {
 
   return (
     <div>
-      <Feedback type={"good"} count={good} />
-      <Feedback type={"neutral"} count={neutral} />
-      <Feedback type={"bad"} count={bad} />
-      <p>{"all"} {calcTotal()}</p>
-      <p>{"average"} {calcAverage()}</p>
-      <p>{"positive"} {calcPositive()}{"%"}</p>
+      <StatisticsLine type={"good"} num={good} />
+      <StatisticsLine type={"neutral"} num={neutral} />
+      <StatisticsLine type={"bad"} num={bad} />
+      <StatisticsLine type={"all"} num={calcTotal()} />
+      <StatisticsLine type={"average"} num={calcAverage()} />
+      <StatisticsLine type={"positive"} num={calcPositive()} />
     </div>
   )
 }
@@ -43,8 +43,8 @@ const Button = ({ onClick, text }) => {
   )
 }
 
-const Feedback = ({ type, count }) => {
-  return <p>{type} {count} </p>
+const StatisticsLine = ({ type, num }) => {
+  return <p>{type} {num} </p>
 }
 
 
