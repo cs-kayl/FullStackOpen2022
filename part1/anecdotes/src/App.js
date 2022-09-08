@@ -45,16 +45,28 @@ const App = () => {
       }
     })
     setVotes(newArray)
-    //findMaxVote()
+    findMaxVote()
   }
 
-  // const findMaxVote = () => {
-  //   anecdotes.forEach(obj => {
-  //     if (maxVotes.length == 0) {ß
-        
-  //     }
-  //   })
-  // }
+  const findMaxVote = () => {
+    let maxVotesArr = []
+    console.log("arr before loop", maxVotesArr)
+    console.log("state of maxVotes", maxVotes)
+    votes.forEach(obj => {
+      if (maxVotesArr.length == 0) {
+        console.log("Inside first branch")
+        maxVotesArr.push(obj)
+      } else {
+        if(obj.votes > maxVotesArr[0].votes) {
+          console.log("Inside second branch")
+          maxVotesArr[0] = obj
+          setMaxVotes(maxVotesArr)
+        }       
+      }
+    })
+    console.log("arr after loop", maxVotesArr)
+    console.log("state of maxVotes", maxVotes)
+  }
 
   return (
     <div>
@@ -62,7 +74,15 @@ const App = () => {
       <Anecdote anecdote={anecdotes[selected].anecdote} votes={votes[selected].votes} />
       <Button text={"next anecdote"} onClick={handleNextAnecdote} />
       <Button text={"vote"} onClick={handleVote} />
-      <Header header={"Anecdote(s) with most votes"} />
+      {maxVotes.length > 0 ? 
+      <>
+        <Header header={"Anecdote with most votes"} />
+        <Anecdote anecdote={maxVotes[0].anecdote} votes={maxVotes[0].votes} />
+        {console.log("Max vote anecdote", maxVotes[0].anecdote)}
+        {console.log("Max vote votes", maxVotes[0].votes)}
+      </> :
+      null
+      }
     </div>
   )
 }
