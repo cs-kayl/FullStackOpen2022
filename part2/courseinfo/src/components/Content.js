@@ -15,11 +15,11 @@ const Total = ({ parts }) => {
     let totalNumExercises = 0
     parts.forEach( part => totalNumExercises += part.exercises)
     return (
-      <>
+      <div>
         <p>
           Number of exercises {totalNumExercises}
         </p>
-      </>
+      </div>
     )
   }
 
