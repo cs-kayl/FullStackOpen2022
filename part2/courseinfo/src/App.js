@@ -19,6 +19,16 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'State of a Union',
+        exercises: 144,
+        id: 4
+      },
+      {
+        name: 'State of a CPU',
+        exercises: 142,
+        id: 5
       }
     ]
   }
