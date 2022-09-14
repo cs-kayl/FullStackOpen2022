@@ -8,7 +8,9 @@ const App = () => {
 
   const addName = (e) => {
     e.preventDefault()
-    setPersons(persons.concat({name: newName}))
+    persons.filter(person => person.name.toLowerCase() == newName.toLowerCase()).length > 0 ? 
+            alert(`${newName} is already added to the phonebook`) : 
+            setPersons(persons.concat({name: newName}))
   }
 
 
@@ -30,7 +32,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => <p>{person.name}</p>)}
+      {persons.map(person => <p key={person.name}>{person.name}</p>)}
     </div>
   )
 }
