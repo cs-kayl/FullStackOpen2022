@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import SearchFilter from './components/SearchFilter'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -17,7 +20,7 @@ const App = () => {
       alert("Please provide a name and number.")
       return
     }
-    const newPerson = {name: newName, phoneNumber: newNumber}
+    const newPerson = {name: newName, phoneNumber: newNumber, id: persons[persons.length -1 ] + 1}
     for (let i = 0; i < persons.length; i++) {
       let person = persons[i]
       if (person.name.toLowerCase() === newName.toLowerCase()) {
@@ -48,25 +51,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <div>
-          filter by name <input value={filter} onChange={handleFilterChange} />
-        </div>
+        <SearchFilter filter={filter} onChange={handleFilterChange} />
       <h2>add a new person</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+        <PersonForm name={newName} number={newNumber} onSubmit={addPerson} onNameChange={handleNameChange} onNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      {filter.length > 0 ? persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())).
-      map(person => <p key={person.id}>{person.name} {person.phoneNumber}</p>) :
-      persons.map(person => <p key={person.id}>{person.name} {person.phoneNumber}</p>)}
+        <Persons filter={filter} persons={persons}/>
     </div>
   )
 }
