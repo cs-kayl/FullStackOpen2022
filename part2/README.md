@@ -105,4 +105,104 @@ const App = (props) => {
 }
 ```
 
-### Filtering Displayed Elements
+### Getting data from server
+
+#### Axios and promises
+The documentation on Mozilla's site states the following about promises:
+
+***A Promise is an object representing the eventual completion or failure of an asynchronous operation.***
+
+In other words, a promise is an object that represents an asynchronous operation. A promise can have three distinct states:
+
+The promise is ***pending***: It means that the final value (one of the following two) is not available yet.
+
+The promise is ***fulfilled***: It means that the operation has been completed and the final value is available, which generally is a successful operation. This state is sometimes also called ***resolved***.
+
+The promise is ***rejected***: It means that an error prevented the final value from being determined, which generally represents a failed operation.
+
+If, and when, we want to access the result of the operation represented by the promise, we must register an event handler to the promise. This is achieved using the method then:
+
+```javascript
+const promise = axios.get('http://localhost:3001/notes')
+
+promise.then(response => {
+  console.log(response)
+})
+```
+
+The JavaScript runtime environment calls the callback function registered by the then method providing it with a response object as a parameter. The response object contains all the essential data related to the response of an HTTP GET request, which would include the returned data, status code, and headers.
+
+Storing the promise object in a variable is generally unnecessary, and it's instead common to chain the then method call to the axios method call, so that it follows it directly:
+
+```javascript
+axios.get('http://localhost:3001/notes').then(response => {
+  const notes = response.data
+  console.log(notes)
+})
+```
+
+The callback function now takes the data contained within the response, stores it in a variable, and prints the notes to the console.
+
+A more readable way to format chained method calls is to place each call on its own line:
+
+```javascript
+axios
+  .get('http://localhost:3001/notes')
+  .then(response => {
+    const notes = response.data
+    console.log(notes)
+  })
+```
+
+#### Effect-hooks
+As per the official docs:
+
+***The Effect Hook lets you perform side effects on function components. Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.***
+
+As such, effect hooks are precisely the right tool to use when fetching data from a server.
+
+```javascript
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import Note from './components/Note'
+
+const App = () => {
+  const [notes, setNotes] = useState([])
+  const [newNote, setNewNote] = useState('')
+  const [showAll, setShowAll] = useState(true)
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/notes')
+      .then(response => {
+        console.log('promise fulfilled')
+        setNotes(response.data)
+      })
+  }, [])
+  console.log('render', notes.length, 'notes')
+
+  // ...
+}
+```
+
+```javascript
+const hook = () => {
+  console.log('effect')
+  axios
+    .get('http://localhost:3001/notes')
+    .then(response => {
+      console.log('promise fulfilled')
+      setNotes(response.data)
+    })
+}
+
+useEffect(hook, [])
+```
+Now we can see more clearly that the function useEffect actually takes two parameters. The first is a function, the effect itself. According to the documentation:
+
+By default, effects run after every completed render, but you can choose to fire it only when certain values have changed.
+
+So by default the effect is always run after the component has been rendered. In our case, however, we only want to execute the effect along with the first render.
+
+The second parameter of useEffect is used to specify how often the effect is run. If the second parameter is an empty array [], then the effect is only run along with the first render of the component.
