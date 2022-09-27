@@ -1,5 +1,6 @@
 const Country = ({ country }) => {
     const languages = []
+    console.log("COUNTRY IS :", country)
     for (let language in country.languages) {
         languages.push(country.languages[language])
     }
