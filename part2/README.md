@@ -206,3 +206,8 @@ By default, effects run after every completed render, but you can choose to fire
 So by default the effect is always run after the component has been rendered. In our case, however, we only want to execute the effect along with the first render.
 
 The second parameter of useEffect is used to specify how often the effect is run. If the second parameter is an empty array [], then the effect is only run along with the first render of the component.
+
+
+### Altering data in server
+
+#### Extracting Communication with the Backend into a Separate Module

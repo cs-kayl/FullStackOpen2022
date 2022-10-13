@@ -18,7 +18,6 @@ const Countries = ({ filter, countries }) => {
     if (numCountries > 10) {
         return filter.length > 0 ? <p>Too many matches, please be more specific</p> : null
     } else if (numCountries <= 10 && numCountries > 1) {
-        
         return (show ? <Country country={country} /> : filteredCountries.map(country => {
             return (
             <div>
