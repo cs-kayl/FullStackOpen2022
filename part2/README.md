@@ -210,4 +210,7 @@ The second parameter of useEffect is used to specify how often the effect is run
 
 ### Altering data in server
 
-#### Extracting Communication with the Backend into a Separate Module
+#### Promises and Errors
+A Promise is an object representing the eventual completion or failure of an asynchronous operation.
+
+The catch method can be used to define a handler function at the end of a promise chain, which is called once any promise in the chain throws an error and the promise becomes rejected.
