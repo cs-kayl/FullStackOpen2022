@@ -22,7 +22,7 @@ const App = () => {
       alert("Please provide a name and number.")
       return
     }
-    const newPerson = {name: newName, phoneNumber: newNumber, id: persons[persons.length -1 ] + 1}
+    const newPerson = {name: newName, phoneNumber: newNumber, id: persons.length + 1}
     for (let i = 0; i < persons.length; i++) {
       let person = persons[i]
       if (person.name.toLowerCase() === newName.toLowerCase()) {
@@ -34,7 +34,10 @@ const App = () => {
       }
     }
 
-    setPersons(persons.concat(newPerson))
+    axios
+    .post('http://localhost:3001/persons', newPerson)
+    .then(() => setPersons(persons.concat(newPerson)))
+    .catch((e) => console.log("There was an error when adding a person", e))
   }
 
 
