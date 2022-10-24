@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import SearchFilter from './components/SearchFilter'
+import phoneBookService from './services/phoneBook'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -11,9 +11,10 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() =>{
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => setPersons(response.data))
+    phoneBookService
+    .getAll()
+    .then(initialPersons => setPersons(initialPersons))
+    .catch(err => console.error(err))
   },[])
 
   const addPerson = (e) => {
@@ -34,10 +35,10 @@ const App = () => {
       }
     }
 
-    axios
-    .post('http://localhost:3001/persons', newPerson)
-    .then(() => setPersons(persons.concat(newPerson)))
-    .catch((e) => console.log("There was an error when adding a person", e))
+    
+    phoneBookService.create(newPerson)
+    .then(newPerson => setPersons(persons.concat(newPerson)))
+    .catch(err => console.error(err))
   }
 
 
