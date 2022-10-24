@@ -54,6 +54,21 @@ const App = () => {
     setFilter(e.target.value)
   }
 
+  const handleDelete = (personId) => {
+    return function() {
+      const person = persons.filter(person => person.id === personId)[0].name
+      if (window.confirm(`Are you sure you want to delete ${person}`)) {
+        phoneBookService.deletePerson(personId)
+      .then(response => {
+        console.log("DELETE RESPONSE IS: ", response.statusText)
+        let newPersons = persons.filter(person => person.id !== personId)
+        setPersons(newPersons)
+      })
+      .catch(err => console.error("DELETE ERROR IS: ", err))
+      }
+    }  
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -61,7 +76,7 @@ const App = () => {
       <h2>add a new person</h2>
         <PersonForm name={newName} number={newNumber} onSubmit={addPerson} onNameChange={handleNameChange} onNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-        <Persons filter={filter} persons={persons}/>
+        <Persons filter={filter} persons={persons} onClick={handleDelete}/>
     </div>
   )
 }
