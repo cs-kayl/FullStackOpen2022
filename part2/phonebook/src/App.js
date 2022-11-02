@@ -23,14 +23,21 @@ const App = () => {
       alert("Please provide a name and number.")
       return
     }
-    const newPerson = {name: newName, phoneNumber: newNumber, id: persons.length + 1}
+    let newPerson = {name: newName, phoneNumber: newNumber, id: persons.length + 1}
     for (let i = 0; i < persons.length; i++) {
       let person = persons[i]
-      if (person.name.toLowerCase() === newName.toLowerCase()) {
+      if (person.name.toLowerCase() === newName.toLowerCase() && person.phoneNumber === newNumber) {
         alert(`${newName} already exists in phonebook`)
         return
-      } else if (person.phoneNumber === newNumber) {
-        alert(`${newNumber} already exists in phonebook`)
+      } else if (person.name.toLowerCase() === newName.toLowerCase() && person.phoneNumber !== newNumber) {
+        alert(`${newNumber} is already in the phonebook, replace the old number with this new one?`)
+        person.phoneNumber = newNumber
+        let newPersons = persons.map(person => {
+          return person.name === newName ? persons[i] : person
+        })
+        phoneBookService.updateNumber(person)
+        .then(() => setPersons(newPersons))
+        .catch(err => console.error(err))
         return 
       }
     }
