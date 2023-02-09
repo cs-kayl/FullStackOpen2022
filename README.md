@@ -1,6 +1,6 @@
 # FullStackOpen2022
 
-This course https://fullstackopen.com/en/ serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js. The course also contains a section on GraphQL, a modern alternative to REST APIs.
+This course https://fullstackopen.com/en/ serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js. The course also contains a section on GraphQL, a modern alternative to REST APIs. 
 
 [Part 0 Fundamentals of web apps](https://github.com/Kaylthomas777/FullStackOpen2022/tree/main/part0)
 
